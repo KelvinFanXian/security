@@ -3,6 +3,7 @@ package website.fanxian.collection;
 import org.junit.Test;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * http://www.cnblogs.com/skywang12345/p/3308498.html
@@ -109,14 +110,76 @@ public class Collection {
 //    　　modCount是用来实现fail-fast机制的。
 
 //        在详细介绍HashMap的代码之前，我们需要了解：HashMap就是一个散列表，它是通过“拉链法”解决哈希冲突的。
-        HashMap hashMap = new HashMap(1, (float) .75);
+        HashMap hashMap = new HashMap();
 
+
+//        Hashtable 的函数都是同步的，这意味着它是线程安全的。它的key、value都不可以为null。此外，Hashtable中的映射不是有序的。
+//        (01) Hashtable继承于Dictionary类，实现了Map接口。Map是"key-value键值对"接口，Dictionary是声明了操作"键值对"函数接口的抽象类。
+//        (02) Hashtable是通过"拉链法"实现的哈希表。它包括几个重要的成员变量：table, count, threshold, loadFactor, modCount。
+//    　　table是一个Entry[]数组类型，而Entry实际上就是一个单向链表。哈希表的"key-value键值对"都是存储在Entry数组中的。
+//    　　count是Hashtable的大小，它是Hashtable保存的键值对的数量。
+//    　　threshold是Hashtable的阈值，用于判断是否需要调整Hashtable的容量。threshold的值="容量*加载因子"。
+//    　　loadFactor就是加载因子。
+//    　　modCount是用来实现fail-fast机制的
+        Hashtable hashtable = new Hashtable();
+
+
+        TreeMap treeMap = new TreeMap();
+
+//        弱键（弱引用，引用队列）
+        WeakHashMap weakHashMap = new WeakHashMap();
+
+///1 继承和实现方式不同
+//        HashMap继承于AbstractMap，而Hashtable继承于Dictionary
+//        Dictionary一般是通过Enumeration(枚举类)去遍历，Map则是通过Iterator(迭代器)去遍历。
+
+///2 线程安全不同
+//        若要在多线程中使用HashMap，需要我们额外的进行同步处理。 对HashMap的同步处理可以使用Collections类提供的synchronizedMap静态方法，
+// 或者直接使用JDK 5.0之后提供的java.util.concurrent包里的ConcurrentHashMap类。
+        Collections.synchronizedMap(hashMap);
+        ConcurrentHashMap concurrentHashMap = new ConcurrentHashMap();
+
+///3 对null值的处理不同
+//        HashMap的key、value都可以为null。
+//        Hashtable的key、value都不可以为null。
+
+///4 支持的遍历种类不同
+//        HashMap只支持Iterator(迭代器)遍历。
+//        而Hashtable支持Iterator(迭代器)和Enumeration(枚举器)两种方式遍历。
+
+///5 通过Iterator迭代器遍历时，遍历的顺序不同
+//        HashMap是“从前向后”的遍历数组；再对数组具体某一项对应的链表，从表头开始进行遍历。
+//        Hashtable是“从后往前”的遍历数组；再对数组具体某一项对应的链表，从表头开始进行遍历。
+
+///6 容量的初始值 和 增加方式都不一样
+//        HashMap默认的容量大小是16；增加容量时，每次将容量变为“原始容量x2”。
+//        Hashtable默认的容量大小是11；增加容量时，每次将容量变为“原始容量x2 + 1”。
+
+///7 添加key-value时的hash值算法不同
+//        HashMap添加元素时，是使用自定义的哈希算法。
+//        Hashtable没有自定义哈希算法，而直接采用的key的hashCode()。
+
+///8 部分API不同
+//        Hashtable支持contains(Object value)方法，而且重写了toString()方法；
+//        而HashMap不支持contains(Object value)方法，没有重写toString()方法。
+
+
+        //TODO: about LinkedHashMap
+        LinkedHashMap linkedHashMap = new LinkedHashMap();
+        linkedHashMap.put("a", 1);
     }
 
     @Test
     public void Set(){
         // HastSet, TreeSet 分别依赖于 HashMap, TreeMap
 
+//        如果多个线程同时访问一个哈希 set，而其中至少一个线程修改了该 set，那么它必须 保持外部同步。这通常是通过对自然封装该 set 的对象
+// 执行同步操作来完成的。如果不存在这样的对象，则应该使用 Collections.synchronizedSet 方法来“包装” set。最好在创建时完成这一操作，
+// 以防止对该 set 进行意外的不同步访问：
+        Set set = Collections.synchronizedSet(new HashSet<>());
+
+        HashSet hashSet = new HashSet();
+        TreeSet treeSet = new TreeSet();
     }
 
     @Test

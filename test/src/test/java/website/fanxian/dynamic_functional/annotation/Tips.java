@@ -8,6 +8,9 @@ import java.lang.reflect.Constructor;
  */
 public class Tips {
     String _22_4 = "查看注解信息";
+
+//    Class Field Method  Constructor 这些类中都有下面的方法：
+
 //    获取所有的注解
 //    public Annotation[] getAnnotations()
 

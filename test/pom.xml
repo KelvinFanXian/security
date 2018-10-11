@@ -5,6 +5,14 @@
 	<artifactId>test</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 
+	<repositories>
+		<repository>
+			<id>KelvinFanXian</id>
+			<name>KelvinFanXian</name>
+			<url>https://raw.github.com/KelvinFanXian/KelvinUtils/master/</url>
+		</repository>
+	</repositories>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -41,6 +49,16 @@
             <version>4.8.1</version>
             <scope>test</scope>
         </dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.0</version>
+		</dependency>
+		<dependency>
+			<groupId>website.fanxian</groupId>
+			<artifactId>KelvinUtils</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>

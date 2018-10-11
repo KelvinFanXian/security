@@ -1,5 +1,10 @@
 package website.fanxian.dynamic_functional.regex;
 
+import org.junit.Test;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * 正则表达式JavaAPI
  * @author Kelvin范显
@@ -51,20 +56,101 @@ public class JavaAPI {/*
 
         Pattern类也有类似方法
             public String[] split(CharSequence input)
-            对比String方法的
+            对比String方法的split:
+                1)  Pattern接受的参数是CharSequence，更为通用
+                2)  如果regex长度大于1或包含元字符， String的split需要： regex->Pattern; Pattern.split。 （为避免重复编译，应该优先采用Pattern的方法）
+                3)  如果regex就一个字符且不是元字符， String的split会采用更简单高效的实现。
 
     */}
 
-    void _3验证(){/*
+    @Test
+    public void _3验证(){
+        /*String的方法
+            public boolean matches(String regex)
+            其实现方式就是调用Pattern的matches方法
+            就是先嗲用compile编译regex为Pattern对象， 再调用Pattern的matches方法生成一个匹配对象Matcher，
+            Matcher的matches方法返回是否完整匹配
+        */
+        String regex = "\\d{8}";
+        String string = "12345678";
+        System.out.println(string.matches(regex));
+    }
 
-     */}
+    @Test
+    public void _4查找(){/*
+        在文本中寻找匹配正则表达式的子字符串
+        end()   子字符串在整个字符串中的结束位置+1
+        group() 其实调用的是group(0)， 表示获取匹配的第0个分组的内容。分组0是一个特殊的分组，表示匹配的整个子字符串。
+     */
+        String regex = "(\\d{4})-(\\d{2})-(\\d{2})";
+        Pattern pattern = Pattern.compile(regex);
+        String string  = "today is 2017-06-02, yesterday is 2017-06-01";
+        Matcher matcher = pattern.matcher(string);
+        while (matcher.find()) {
+            System.out.println(
+                    "find " + matcher.group() +
+                    " position: " + matcher.start() + "-" + matcher.end());
 
-    void _4查找(){/*
+            System.out.println(
+                    "year: " + matcher.group(1) +
+                    ", month: " + matcher.group(2) +
+                    ", day: " + matcher.group(3));
+        }
 
-     */}
+    }
 
-    void _5替换(){/*
+    @Test
+    public void _5替换(){/*
+        String有多个替换方法：
+            public String replace(char oldChar, char newChar)
+            public String replace(CharSequence target, CharSequence replacement)
+            public String replaceAll(String regex, String replacement)
+            public String replaceFirst(String regex, String replacement)
+     */
 
-     */}
+        // 将多个空白，替换为一个空白
+//        String regex = "\\s+";
+//        String string = "hello      world     good";
+//        System.out.println(string.replaceAll(regex, " "));
+
+        // 可以用美元符号加数字的形式(比如$1)引用捕获分组：
+//        String regex0 = "(\\d{4})-(\\d{2})-(\\d{2})";
+//        String string0 = "today is 2017-06-02.";
+//        System.out.println(string0.replaceFirst(regex0, "$1/$2/$3"));
+
+        // 如果替换字符串是用户提供的， 为避免元字符的干扰，可以使用Matcher的如下静态方法，将其视为普通字符串：
+        // public static String quoteReplacement(String s)
+//        String regex1 = "#";
+//        String string1 = "#this is a test";
+//        String replacement = "$";
+//        String replacement0 = Matcher.quoteReplacement(replacement);
+//        System.out.println(string1.replaceAll(regex1, replacement0));
+
+        // replaceAll和replaceFirst都定义在Matcher中，除了一次性的替换操作外，
+        // Matcher还定义了 边查找、边替换的方法：
+        // public Matcher appendReplacement(StringBuffer sb, String replacement)
+        // public StringBuffer appendTail(StringBuffer sb)
+        // 这两个方法和find一起使用：
+        Pattern p = Pattern.compile("cat");
+        Matcher m = p.matcher("one cat, two cat, three cat");
+        StringBuffer sb = new StringBuffer();
+        int foundNum = 0;
+        while (m.find()) {
+            m.appendReplacement(sb, "dog");
+            foundNum++;
+            if (foundNum == 2) {
+                break;
+            }
+        }
+        m.appendTail(sb);
+        System.out.println(sb.toString());
+
+        // Matcher内部除了有一个查找位置，还有一个append位置，初始为0， 当找到一个匹配的子字符串后，
+        // appendReplacement() 做了3件事：
+            // 1) 将append位置到当前匹配之前的子字符串append到sb中， 在第一次为“one”，第二次为“two”。
+            // 2) 将替换字符串append到sb中。
+            // 3）更新append位置为当前匹配之后的位置。
+        // appendTail将append位置之后所有的字符append到sb中。
+    }
 
 }

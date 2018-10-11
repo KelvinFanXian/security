@@ -16,6 +16,7 @@ public class KelvinUtils {
     static AtomicInteger atomicInteger = new AtomicInteger();
 
     /// consumers
+
     /**
      * "method1 method2" =>
      *      @Test public void _1method1(){}
@@ -38,6 +39,7 @@ public class KelvinUtils {
     }
 
     /// prints
+
     public static void printStart() {System.out.printf("--begin-------------------------\n\n\n");}
     public static void printEnd() {System.out.printf("\n\n\n--end-------------------------\n");}
     public static void print(String s) {

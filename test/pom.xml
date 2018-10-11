@@ -55,8 +55,8 @@
 		</dependency>
 		<dependency>
 			<groupId>com.github.KelvinFanXian</groupId>
-			<artifactId>KelvinUtils</artifactId>
-			<version>KelvinUtils-1.0-SNAPSHOT</version>
+			<artifactId>kelvin-utils</artifactId>
+			<version>1.0.1</version>
 		</dependency>
 	</dependencies>
 

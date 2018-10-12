@@ -1,4 +1,4 @@
-package website.fanxian.dynamic_functional.annotation;
+package website.fanxian.dynamic_functional.annotation.DIContainer;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -54,26 +54,5 @@ public class DIContainer {
     public static void main(String[] args) {
         ServiceA a = getInstance(ServiceA.class);
         a.callB();
-    }
-}
-@Retention(RUNTIME)
-@Target(FIELD)
-@interface SimpleInject {
-}
-@Retention(RUNTIME)
-@Target(TYPE)
-@interface SimpleSingleton {
-}
-class ServiceA {
-    @SimpleInject
-    ServiceB b;
-    public void callB(){
-        b.action();
-    }
-}
-@SimpleSingleton
-class ServiceB {
-    public void action(){
-        System.out.println("I'm B");
     }
 }

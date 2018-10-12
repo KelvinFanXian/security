@@ -135,15 +135,31 @@ public class _1Class类 {/*
         }
     }
     @Test
-    public void _4创建对象(){/*
+    public void _4创建对象和构造方法(){/*
      */
     }
     @Test
-    public void _5构造方法(){/*
+    public void _5类型检查和转换(){/*
      */
     }
     @Test
-    public void _6类型信息(){/*
+    public void _6Class的类型信息(){/*
+     */
+    }
+    @Test
+    public void _7类的声明信息(){/*
+     */
+    }
+    @Test
+    public void _8类的加载(){/*
+     */
+    }
+    @Test
+    public void _9反射与数组(){/*
+     */
+    }
+    @Test
+    public void _10反射与枚举(){/*
      */
     }
 }

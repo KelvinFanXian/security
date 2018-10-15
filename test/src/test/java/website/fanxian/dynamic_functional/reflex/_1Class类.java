@@ -2,11 +2,10 @@ package website.fanxian.dynamic_functional.reflex;
 
 import org.junit.Test;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -135,32 +134,137 @@ public class _1Class类 {/*
         }
     }
     @Test
-    public void _4创建对象和构造方法(){/*
+    public void _4创建对象和构造方法() throws Exception{/*
+        Class有一个方法，可以用来创建对象：
+            public T newInstance() throws InstantiationException, IllegalAccessException
      */
+        HashMap map = HashMap.class.newInstance();
+        map.put("hello", 123);
+
+        /*
+        newInstance只能使用默认构造方法。Class还有一些方法，可以获取所有的构造方法:
+            public Constructor<?>[] getConstructors()
+            public Constructor<?>[] getDeclaredConstructors()
+            public Constructor<T> getConstructor(Class<?>... parameterTypes)
+            public Constructor<T> getDeclaredConstructor(Class<?>... parameterTypes)
+*/
+
+        /*
+        类Constructor表示构造方法，通过它可以创建对象，方法为：
+        public T newInstance(Object ... initargs) throws InstantiationException,
+        IllegalAccessException, IllegalArgumentException, InvocationTargetException
+ */
+        Constructor<StringBuilder> constructor = StringBuilder.class
+                .getConstructor(new Class[]{int.class});
+        StringBuilder sb = constructor.newInstance(100);
     }
     @Test
-    public void _5类型检查和转换(){/*
+    public void _5类型检查和转换() throws Exception{/*
+        instanceof关键字，可以用来判断变量指向的实际对象类型。 instanceof后面的类型
+    是在代码中确定的，如果要检查的类型是动态的，可以使用Class类的如下方法：
+        public native boolean isInstance(Object obj)
      */
+        List list = new ArrayList();
+        if (list instanceof ArrayList) {
+            System.out.println("array list");
+        }
+        // 上面代码，和下面代码同
+        Class cls = Class.forName("java.util.ArrayList");
+        if (cls.isInstance(list)) {
+            System.out.println("array list");
+        }
+
+        /**
+         * 类型转换
+         */
+        if (list instanceof ArrayList) {
+            ArrayList arrayList = (ArrayList) list;
+        }
+        /*如果是动态的，可以使用Class的如下方法：
+            public T cast(Object obj)
+        比如：
+        punlic static <T> T toType(Object obj, Class<T> cls){
+            return cls.cast(obj);
+        }
+*/
+        ArrayList castAsList = ArrayList.class.cast(list);
+
+        /*
+        isInstance/cast描述的都是对象和类之间的关系，Class还有一个方法，可以判断Class之间的关系：
+        public native boolean isAssignableFrom(Class<?> cls);
+ */
+        // 下面返回都是true
+        Object.class.isAssignableFrom(String.class);
+        String.class.isAssignableFrom(String.class);
+        List.class.isAssignableFrom(ArrayList.class);
     }
     @Test
     public void _6Class的类型信息(){/*
-     */
+        public native boolean isArray()  // 数组？
+        public native boolean isPrimitive()  // 基本类型？
+        public native boolean isInterface()  // 接口？
+        public boolean isEnum()  // 枚举？
+        public boolean isAnnotation()  // 注解？
+        public boolean isAnonymousClass()  // 匿名内部类？
+        public boolean isMemberClass()  // 成员类？
+        public boolean isLocalClass()  // 本地类？
+ */
     }
     @Test
-    public void _7类的声明信息(){/*
-     */
+    public void _7类的声明信息() throws Exception{/* Class类的方法： 修饰符、父类、接口、注解
+        public native int getModifiers()
+        public native Class<? super T> getSuperclass()
+        public native Class<?>[] getInterfaces()
+        public Annotation[] getDeclaredAnnotations()
+        public Annotation[] getAnnotations() // 所有的注解，包括继承得到的
+        public <A extends Annotation> A getAnnotation(Class<A> annotationClass)
+        public boolean isAnnotationPresent(Class<? extends Annotation> annotationClass)
+ */
     }
     @Test
-    public void _8类的加载(){/*
-     */
+    public void _8类的加载() throws Exception{/* Class有两个静态方法，可以根据类名加载类：
+        public static Class<?> forName(String className)
+        public static Class<?> forName(String name, boolean initialize,
+            ClassLoader loader)
+ */
+        // 这里className与Class.getName的返回值是一致的。比如，对于String数组：
+        String name = "[Ljava.lang.String;";
+        Class cls = Class.forName(name);
+        System.out.println(cls == String[].class);//true
     }
     @Test
     public void _9反射与数组(){/*
+        对于数组类型，获取它的元素类型：
+            public native Class<?> getComponentType()
      */
+        String[] arr = new String[]{};
+        Class<?> cls = arr.getClass().getComponentType(); //class java.lang.String
+    /*
+        public static Object newInstance(Class<?> componentType, int length) // 指定长度
+        public static Object newInstance(Class<?> componentType, int... dimensions) // 多维数组
+        public static native Object get(Object array, int index) // 指定的索引位置index出的值
+        public static native void set(Object array, int index, Object value) // 修改数组array指定的索引位置index出的值为value
+        public static native int getLength(Object array) // 返回数组的长度
+ */
+        int[] intArr = (int[])Array.newInstance(int.class, 10);
+        String[] strArr = (String[])Array.newInstance(String.class, 10);
+
+    /*
+        public static native double getDouble(Object array, int index)
+        public static native void setDouble(Object array, int index, double d)
+        public static native void setLong(Object array, int index, long l)
+        public static native long getLong(Object array, int index)
+ */
+    }
+    enum A{
+        a,o,e
     }
     @Test
     public void _10反射与枚举(){/*
-     */
+        public T[] getEnumConstants()
+ */
+        A[] enumConstants = A.class.getEnumConstants();
+        System.out.println(enumConstants); // [a,o,e]
     }
 }
 

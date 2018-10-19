@@ -10,9 +10,13 @@ import java.util.Arrays;
 import java.util.List;
 
 /** 13.1二进制文件和字节流
- *
- *
+ *  InputStream/OutputStream 抽象基类，很多面向流的代码，以它们为参数（提高代码的重用性）
+ *  FileInputStream/FileOutputStream 流的源和目的地是文件
+ *  ByteArrayInputStream/ByteArrayOutputStream 输入，【适配器】； 输出，封装了动态数组
+ *  DataInputStream/DataOutputStream 【装饰器】 按基本类型和字符串读写流
+ *  BufferedInputStream/BufferedOutputStream 【装饰器】,提供缓冲
  */
+
 public class _2二进制文件和字节流 {
     @Test
     public void _1InputStream_OutputStream() throws Exception{/*

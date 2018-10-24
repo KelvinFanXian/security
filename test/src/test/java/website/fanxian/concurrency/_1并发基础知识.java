@@ -343,14 +343,42 @@ public class _1并发基础知识 {
 
         协作场景：
             1）生产者/消费者协作模式
+                Java提供了专门的阻塞队列的实现，包括：
+                    接口BlockingQueue和BlockingDeque
+                    基于数组的实现类：ArrayBlockingQueue
+                    基于链表的实现类：LinkedBlockingQueue和LinkedBlockingDeque
+                    基于堆的实现类：PriorityBlockingQueue。
             2）同时开始
             3）等待结束
+                CountDownLatch
             4）异步结果
+                表示异步结果的接口Future，实现类FutureTask
+                用于创建异步任务的接口Executor，有更多功能的子接口ExecutorService
+                创建Executor和ExecutorService的工厂方法类Executors。
             5）集合点
+                CyclicBarrier
      */
     }
     @Test
     public void _4线程的中断() throws Exception{/*
+        在Java中，停止一个线程的主要机制是中断，中断并不是强迫终止一个线程，他是一种协作机制，是给线程传递一个取消信号，但是
+        有线程类决定如何以及何时退出。
+        Thread类定义了关于中断的方法：
+            public boolean isInterrupted()
+            public void interrupt()
+            public static boolean interrupted() //副作用，清空中断标志位，第一次返回true，第二次返回就是false（除非同时又发送了一次中断）
+
+
+        4.3 线程对中断的反应：
+            1）RUNNABLE
+                interrupt()只是为设置线程的中断标志位，没有任何其他作用。
+            2）WAITING/TIMED_WAITING
+                interrupt()会使线程抛出InterruptedException。需要注意的是，抛出异常后，中断标志位会被清空，而不是被设置。
+            3）BLOCKED
+                interrupt()只会设置线程的中断标志位，线程已然会处于BLOCKED状态，也就是说，interrupt()并不能使一个在等待锁的
+                线程真正“中断”。
+            4）NEW/TERMINATE
+                interrupt()对他没有任何效果，中断标志位也不会被设置。
      */
     }
 }

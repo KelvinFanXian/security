@@ -236,7 +236,7 @@ public class _2并发包的基石 {
     @Test
     public void _3显示条件() throws Exception{/*
     1.用法
-        锁用于解决竞态条件问题，条件是线程间的协作机制。 显示锁于synchronized相对应，而显示条件与wait/notify相对应。wait/notify
+        锁用于解决竞态条件问题，条件是线程间的协作机制。 显示锁与synchronized相对应，而显示条件与wait/notify相对应。wait/notify
         于synchronized配合使用，显示条件与显示锁配合使用。条件与锁相关联，创建条件变量需要通过显示锁，Lock接口定义了创建方法：
             Condition newCondition();
         Condition表示条件变量，是一个接口：
@@ -249,8 +249,11 @@ public class _2并发包的基石 {
           void signal(); // notify
           void signalAll(); // notifyAll
         }
-     */
 
+        避免将锁于synchronized混用，哪样非常令人混淆
+
+        记住，显示条件与显示锁配合，wait/notify与synchronized配合。
+     */
     }
 
 }
